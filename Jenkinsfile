@@ -22,6 +22,11 @@ pipeline{
                 sh 'npm install'
             }
         }
+        stage('Run tests'){
+            steps{
+                sh 'npm test'
+            }
+        }
         stage('Build application'){
             steps{
                 sh 'nohup npm start &'
@@ -29,21 +34,21 @@ pipeline{
                 sh 'curl -I http://localhost:5000 || exit 1'
             }
         }
-        stage('Install NPM dependencies'){
-            steps{
-                sh 'npm install'
-            }
-        }
-        stage('Test Application'){
-            steps{
-                // Start the application on port 5001 for testing
-                sh 'PORT=5001 nohup npm start &'
-                sleep 10 // Wait for the app to start
-                sh 'curl -I http://localhost:5001 || exit 1' // Check if the app is running
-                // Run tests using the hardcoded port 5001
-                sh 'npm test -- --port=5001'
-            }
-        }
+        // stage('Install NPM dependencies'){
+        //     steps{
+        //         sh 'npm install'
+        //     }
+        // }
+        // stage('Test Application'){
+        //     steps{
+        //         // Start the application on port 5001 for testing
+        //         sh 'PORT=5001 nohup npm start &'
+        //         sleep 10 // Wait for the app to start
+        //         sh 'curl -I http://localhost:5001 || exit 1' // Check if the app is running
+        //         // Run tests using the hardcoded port 5001
+        //         sh 'npm test -- --port=5001'
+        //     }
+        // }
         stage('Deploy to Heroku'){
             steps{
                 withCredentials([usernameColonPassword(credentialsId: 'HEROKU_API_KEY', variable: 'HEROKU_CREDENTIALS')]){
