@@ -77,9 +77,11 @@ pipeline{
     //         slackSend(channel: SLACK_CHANNEL, message: "Build #${env.BUILD_NUMBER} of '${env.JOB_NAME}' was successful! 🎉 Check it out: ${env.BUILD_URL}", tokenCredentialId: SLACK_CREDENTIALS_ID)
     //     }
     // }
+
+
     post{
         success{
-            slackSendslackSend(channel: SLACK_CHANNEL, message: "Build #${env.BUILD_NUMBER} of '${env.JOB_NAME}' was successful! 🎉 Check it out: ${env.BUILD_URL}", tokenCredentialId: SLACK_CREDENTIALS_ID)
+            slackSend(channel: SLACK_CHANNEL, message: "Build #${env.BUILD_NUMBER} of '${env.JOB_NAME}' was successful! 🎉 Check it out: ${env.BUILD_URL}", tokenCredentialId: SLACK_CREDENTIALS_ID)
         }
         failure {
             slackSend(channel: SLACK_CHANNEL, message: "Build #${env.BUILD_NUMBER} of '${env.JOB_NAME}' failed. 😞 Please check the logs: ${env.BUILD_URL}", tokenCredentialId: SLACK_CREDENTIALS_ID)
