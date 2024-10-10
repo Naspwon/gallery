@@ -36,7 +36,12 @@ pipeline{
         }
         stage('Test Application'){
             steps{
-                sh 'npm test'
+                // Start the application on port 5001 for testing
+                sh 'PORT=5001 nohup npm start &'
+                sleep 10 // Wait for the app to start
+                sh 'curl -I http://localhost:5001 || exit 1' // Check if the app is running
+                // Run tests using the hardcoded port 5001
+                sh 'npm test -- --port=5001'
             }
         }
         stage('Deploy to Heroku'){
