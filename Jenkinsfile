@@ -19,7 +19,7 @@ pipeline{
         }
         stage('Test code'){
             steps{
-                echo "Tested successfully"
+                echo "Tested successfully..."
             }
         }
         stage('Build application'){
