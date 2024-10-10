@@ -3,6 +3,11 @@ pipeline{
     tools{
         nodejs "node"
     }
+    environment {
+        // Define your Slack channel and credentials
+        SLACK_CHANNEL = 'C07RDNTPQKC'
+        SLACK_CREDENTIALS_ID = 'SLACK_GALLERY'
+    }
     stages{
         stage('Clone Repo'){
             steps{
@@ -49,6 +54,20 @@ pipeline{
                     """
                 }
             }
+        }
+    }
+    post{
+        success{
+            slackSendslackSend(channel: SLACK_CHANNEL, message: "Build #${env.BUILD_NUMBER} of '${env.JOB_NAME}' was successful! 🎉 Check it out: ${env.BUILD_URL}", tokenCredentialId: SLACK_CREDENTIALS_ID)
+        }
+        failure {
+            slackSend(channel: SLACK_CHANNEL, message: "Build #${env.BUILD_NUMBER} of '${env.JOB_NAME}' failed. 😞 Please check the logs: ${env.BUILD_URL}", tokenCredentialId: SLACK_CREDENTIALS_ID)
+        }
+        unstable {
+            slackSend(channel: SLACK_CHANNEL, message: "Build #${env.BUILD_NUMBER} of '${env.JOB_NAME}' is unstable. ⚠️ Review the results: ${env.BUILD_URL}", tokenCredentialId: SLACK_CREDENTIALS_ID)
+        }
+        aborted {
+            slackSend(channel: SLACK_CHANNEL, message: "Build #${env.BUILD_NUMBER} of '${env.JOB_NAME}' was aborted. ❌", tokenCredentialId: SLACK_CREDENTIALS_ID)
         }
     }
 }
