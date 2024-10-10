@@ -31,7 +31,7 @@ pipeline{
         }
         stage('Test Application'){
             steps{
-                echo "Tested Successfully"
+                sh 'npm test'
             }
         }
         stage('Deploy to Heroku'){
@@ -56,24 +56,24 @@ pipeline{
             }
         }
     }
-    post {
-        success {
-            echo "Sending success message to Slack: Build #${env.BUILD_NUMBER} of '${env.JOB_NAME}' was successful!"
-            slackSend(channel: SLACK_CHANNEL, message: "Build #${env.BUILD_NUMBER} of '${env.JOB_NAME}' was successful! 🎉 Check it out: ${env.BUILD_URL}", tokenCredentialId: SLACK_CREDENTIALS_ID)
-        }
-    }
-    // post{
-    //     success{
-    //         slackSendslackSend(channel: SLACK_CHANNEL, message: "Build #${env.BUILD_NUMBER} of '${env.JOB_NAME}' was successful! 🎉 Check it out: ${env.BUILD_URL}", tokenCredentialId: SLACK_CREDENTIALS_ID)
-    //     }
-    //     failure {
-    //         slackSend(channel: SLACK_CHANNEL, message: "Build #${env.BUILD_NUMBER} of '${env.JOB_NAME}' failed. 😞 Please check the logs: ${env.BUILD_URL}", tokenCredentialId: SLACK_CREDENTIALS_ID)
-    //     }
-    //     unstable {
-    //         slackSend(channel: SLACK_CHANNEL, message: "Build #${env.BUILD_NUMBER} of '${env.JOB_NAME}' is unstable. ⚠️ Review the results: ${env.BUILD_URL}", tokenCredentialId: SLACK_CREDENTIALS_ID)
-    //     }
-    //     aborted {
-    //         slackSend(channel: SLACK_CHANNEL, message: "Build #${env.BUILD_NUMBER} of '${env.JOB_NAME}' was aborted. ❌", tokenCredentialId: SLACK_CREDENTIALS_ID)
+    // post {
+    //     success {
+    //         echo "Sending success message to Slack: Build #${env.BUILD_NUMBER} of '${env.JOB_NAME}' was successful!"
+    //         slackSend(channel: SLACK_CHANNEL, message: "Build #${env.BUILD_NUMBER} of '${env.JOB_NAME}' was successful! 🎉 Check it out: ${env.BUILD_URL}", tokenCredentialId: SLACK_CREDENTIALS_ID)
     //     }
     // }
+    post{
+        success{
+            slackSendslackSend(channel: SLACK_CHANNEL, message: "Build #${env.BUILD_NUMBER} of '${env.JOB_NAME}' was successful! 🎉 Check it out: ${env.BUILD_URL}", tokenCredentialId: SLACK_CREDENTIALS_ID)
+        }
+        failure {
+            slackSend(channel: SLACK_CHANNEL, message: "Build #${env.BUILD_NUMBER} of '${env.JOB_NAME}' failed. 😞 Please check the logs: ${env.BUILD_URL}", tokenCredentialId: SLACK_CREDENTIALS_ID)
+        }
+        unstable {
+            slackSend(channel: SLACK_CHANNEL, message: "Build #${env.BUILD_NUMBER} of '${env.JOB_NAME}' is unstable. ⚠️ Review the results: ${env.BUILD_URL}", tokenCredentialId: SLACK_CREDENTIALS_ID)
+        }
+        aborted {
+            slackSend(channel: SLACK_CHANNEL, message: "Build #${env.BUILD_NUMBER} of '${env.JOB_NAME}' was aborted. ❌", tokenCredentialId: SLACK_CREDENTIALS_ID)
+        }
+    }
 }
