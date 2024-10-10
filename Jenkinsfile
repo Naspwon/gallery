@@ -29,7 +29,7 @@ pipeline{
                 sh 'curl -I http://localhost:5000 || exit 1'
             }
         }
-        stage('Install dependencies'){
+        stage('Install NPM dependencies'){
             steps{
                 sh 'npm install'
             }
