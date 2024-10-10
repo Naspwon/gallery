@@ -1,7 +1,11 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
+<<<<<<< HEAD
 const config = require('./_config');  // MongoDB credentials from config or environment variables
+=======
+const config = require('./_config');
+>>>>>>> test
 
 // Define routes
 let index = require('./routes/index');
@@ -38,6 +42,15 @@ app.use('/image', image);
 
 // Define the port (use environment variable or fallback to 5000 for local dev)
 const PORT = process.env.PORT || 5000;
+<<<<<<< HEAD
 app.listen(PORT, () => {
     console.log(`Server is listening at http://localhost:${PORT}`);
 });
+=======
+app.listen(PORT,() =>{
+    console.log(`Server is listening at http://localhost:${PORT}`)
+});
+
+
+module.exports = app;
+>>>>>>> test
